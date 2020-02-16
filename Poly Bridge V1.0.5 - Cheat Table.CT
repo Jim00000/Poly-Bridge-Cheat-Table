@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="29">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>7</ID>
+      <Description>"========== Poly Bridge V1.0.5 -  Cheat Table - By Jim00000 =========="</Description>
+      <LastState Value="" RealAddress="00000000"/>
+      <GroupHeader>1</GroupHeader>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>2</ID>
+          <Description>"No expense"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>[ENABLE]
+
+aobscan(NO_EXPENSE,89 88 24 01 00 00 8B 47) // should be unique
+alloc(newmem,$1000)
+
+label(code)
+label(return)
+
+registersymbol(NO_EXPENSE)
+
+newmem:
+  mov [eax+00000124], 0
+code:
+  // mov [eax+00000124],ecx
+  jmp return
+
+NO_EXPENSE:
+  jmp newmem
+  nop
+return:
+
+[DISABLE]
+
+NO_EXPENSE:
+  db 89 88 24 01 00 00
+
+unregistersymbol(NO_EXPENSE)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: 18882278
+
+18882259: E8 DA E6 7B EC        -  call 05040938
+1888225E: 83 C4 10              -  add esp,10
+18882261: 8B 47 0C              -  mov eax,[edi+0C]
+18882264: 89 45 F4              -  mov [ebp-0C],eax
+18882267: 83 EC 0C              -  sub esp,0C
+1888226A: 50                    -  push eax
+1888226B: E8 D8 13 00 00        -  call 18883648
+18882270: 83 C4 10              -  add esp,10
+18882273: 8B C8                 -  mov ecx,eax
+18882275: 8B 45 F4              -  mov eax,[ebp-0C]
+// ---------- INJECTING HERE ----------
+18882278: 89 88 24 01 00 00     -  mov [eax+00000124],ecx
+// ---------- DONE INJECTING  ----------
+1888227E: 8B 47 0C              -  mov eax,[edi+0C]
+18882281: 83 EC 0C              -  sub esp,0C
+18882284: 50                    -  push eax
+18882285: E8 36 32 7C EC        -  call 050454C0
+1888228A: 83 C4 10              -  add esp,10
+1888228D: C7 47 10 FF FF FF FF  -  mov [edi+10],FFFFFFFF
+18882294: 33 C0                 -  xor eax,eax
+18882296: EB 05                 -  jmp 1888229D
+18882298: B8 01 00 00 00        -  mov eax,00000001
+1888229D: 8D 65 FC              -  lea esp,[ebp-04]
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>6</ID>
+          <Description>"Infinite budget"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>[ENABLE]
+
+aobscan(BUDGET,8B 89 20 01 00 00 83 EC) // should be unique
+alloc(newmem,$1000)
+
+label(code)
+label(return)
+
+registersymbol(BUDGET)
+
+newmem:
+  mov [ecx+00000120], #2147483647 // INT_MAX
+code:
+  mov ecx,[ecx+00000120]
+  jmp return
+
+BUDGET:
+  jmp newmem
+  nop
+return:
+
+[DISABLE]
+
+BUDGET:
+  db 8B 89 20 01 00 00
+
+unregistersymbol(BUDGET)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: 05024DA5
+
+05024D83: 8B 89 24 01 00 00  -  mov ecx,[ecx+00000124]
+05024D89: 83 EC 08           -  sub esp,08
+05024D8C: 51                 -  push ecx
+05024D8D: 50                 -  push eax
+05024D8E: 39 00              -  cmp [eax],eax
+05024D90: E8 43 00 00 00     -  call 05024DD8
+05024D95: 83 C4 10           -  add esp,10
+05024D98: BA 88 E4 F4 14     -  mov edx,14F4E488
+05024D9D: E8 7E 8A F9 FF     -  call 04FBD820
+05024DA2: 8B 4D 08           -  mov ecx,[ebp+08]
+// ---------- INJECTING HERE ----------
+05024DA5: 8B 89 20 01 00 00  -  mov ecx,[ecx+00000120]
+// ---------- DONE INJECTING  ----------
+05024DAB: 83 EC 08           -  sub esp,08
+05024DAE: 51                 -  push ecx
+05024DAF: 50                 -  push eax
+05024DB0: 39 00              -  cmp [eax],eax
+05024DB2: E8 99 08 00 00     -  call 05025650
+05024DB7: 83 C4 10           -  add esp,10
+05024DBA: C9                 -  leave 
+05024DBB: C3                 -  ret 
+05024DBC: 68 20 D2 D0 0E     -  push 0ED0D220
+05024DC1: E9 62 B2 B8 FF     -  jmp 04BB0028
+}
+</AssemblerScript>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+  </CheatEntries>
+  <UserdefinedSymbols/>
+  <Comments>Game         : Poly Bridge V1.0.5
+Author       : Jim00000
+Last Update  : 02.16.2020
+CE Version   : 7.0
+URL          : https://github.com/Jim00000/Poly-Bridge-Cheat-Table
+[Cheat Table Contents]
+- No expense
+- Infinite budget
+[ChangeLog]
+02.16.2020 update
+- Initial release
+[MIT License]
+Copyright (c) 2020 Jim00000
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+</Comments>
+</CheatTable>
