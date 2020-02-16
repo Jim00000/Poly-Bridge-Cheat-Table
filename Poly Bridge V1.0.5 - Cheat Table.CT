@@ -133,10 +133,124 @@ dealloc(newmem)
 }
 </AssemblerScript>
         </CheatEntry>
+        <CheatEntry>
+          <ID>11</ID>
+          <Description>"No road limit"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>[ENABLE]
+
+aobscan(RESOURCE,8B 49 20 3B C1 0F 8C) // should be unique
+alloc(newmem,$1000)
+
+label(code)
+label(return)
+
+registersymbol(RESOURCE)
+
+newmem:
+
+code:
+  mov ecx,[ecx+20]
+  //cmp eax,ecx
+  cmp eax, #2147483647
+  jmp return
+
+RESOURCE:
+  jmp newmem
+return:
+
+[DISABLE]
+
+RESOURCE:
+  db 8B 49 20 3B C1
+
+unregistersymbol(RESOURCE)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: 1373F79D
+
+1373F77F: C1 E1 02           -  shl ecx,02
+1373F782: B8 88 F9 73 13     -  mov eax,1373F988
+1373F787: 03 C1              -  add eax,ecx
+1373F789: 8B 00              -  mov eax,[eax]
+1373F78B: FF E0              -  jmp eax
+1373F78D: 8B 46 20           -  mov eax,[esi+20]
+1373F790: 8B C8              -  mov ecx,eax
+1373F792: 39 09              -  cmp [ecx],ecx
+1373F794: 8B 40 0C           -  mov eax,[eax+0C]
+1373F797: 8B 8E 88 00 00 00  -  mov ecx,[esi+00000088]
+// ---------- INJECTING HERE ----------
+1373F79D: 8B 49 20           -  mov ecx,[ecx+20]
+1373F7A0: 3B C1              -  cmp eax,ecx
+// ---------- DONE INJECTING  ----------
+1373F7A2: 0F 8C 92 01 00 00  -  jl 1373F93A
+1373F7A8: BA 98 34 BC 14     -  mov edx,14BC3498
+1373F7AD: E8 6E E0 8F F1     -  call 0503D820
+1373F7B2: 89 45 EC           -  mov [ebp-14],eax
+1373F7B5: E8 3E 1D 00 00     -  call 137414F8
+1373F7BA: 8B C8              -  mov ecx,eax
+1373F7BC: 8B 45 EC           -  mov eax,[ebp-14]
+1373F7BF: 83 EC 08           -  sub esp,08
+1373F7C2: 51                 -  push ecx
+1373F7C3: 50                 -  push eax
+}
+</AssemblerScript>
+        </CheatEntry>
       </CheatEntries>
     </CheatEntry>
   </CheatEntries>
   <UserdefinedSymbols/>
+  <Structures StructVersion="2">
+    <Structure Name="String" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
+      <Elements>
+        <Element Offset="8" Vartype="4 Bytes" Bytesize="4" Description="Length" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="12" Vartype="Unicode String" Bytesize="128" Description="Value" DisplayMethod="Unsigned Integer"/>
+      </Elements>
+    </Structure>
+    <Structure Name="LevelConfig" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
+      <Elements>
+        <Element Offset="8" Vartype="Pointer" Bytesize="4" ChildStruct="String" Description="description" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="12" Vartype="Pointer" Bytesize="4" Description="anchors" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="16" Vartype="Pointer" Bytesize="4" Description="terrains" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="20" Vartype="Pointer" Bytesize="4" Description="vehicleEvents" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="24" Vartype="Pointer" Bytesize="4" Description="shipEvents" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="28" Vartype="Pointer" Bytesize="4" Description="airplaneEvents" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="32" Vartype="Pointer" Bytesize="4" Description="pistonEvents" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="36" Vartype="Pointer" Bytesize="4" Description="retriggerEvents" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="40" Vartype="Pointer" Bytesize="4" Description="scenery" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="44" Vartype="Pointer" Bytesize="4" Description="targetFlags" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="48" Vartype="Pointer" Bytesize="4" Description="checkpoints" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="52" Vartype="Pointer" Bytesize="4" Description="customShapes" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="56" Vartype="Pointer" Bytesize="4" Description="saveFiles" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="60" Vartype="Pointer" Bytesize="4" Description="nodeSystem" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="64" Vartype="4 Bytes" Bytesize="4" Description="theme" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="68" Vartype="Byte" Bytesize="1" Description="themeSet" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="69" Vartype="Byte" Bytesize="1" Description="unbreakable" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="70" Vartype="Byte" Bytesize="1" Description="hydroController" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="72" Vartype="4 Bytes" Bytesize="4" Description="resources" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="104" Vartype="8 Bytes" Bytesize="8" Description="workshopID" DisplayMethod="Unsigned Integer"/>
+      </Elements>
+    </Structure>
+    <Structure Name="LevelConfig.Static" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
+      <Elements/>
+    </Structure>
+    <Structure Name="LevelConfig+Resources" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
+      <Elements>
+        <Element Offset="8" Vartype="4 Bytes" Bytesize="4" Description="budget" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="12" Vartype="4 Bytes" Bytesize="4" Description="numRoads" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="16" Vartype="4 Bytes" Bytesize="4" Description="numSegments" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="20" Vartype="4 Bytes" Bytesize="4" Description="numSegmentsStrong" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="24" Vartype="4 Bytes" Bytesize="4" Description="numPistons" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="28" Vartype="4 Bytes" Bytesize="4" Description="numRopes" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="32" Vartype="4 Bytes" Bytesize="4" Description="numCablesStrong" DisplayMethod="Unsigned Integer"/>
+      </Elements>
+    </Structure>
+    <Structure Name="LevelConfig+Resources.Static" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
+      <Elements/>
+    </Structure>
+  </Structures>
   <Comments>Game         : Poly Bridge V1.0.5
 Author       : Jim00000
 Last Update  : 02.16.2020
@@ -145,6 +259,7 @@ URL          : https://github.com/Jim00000/Poly-Bridge-Cheat-Table
 [Cheat Table Contents]
 - No expense
 - Infinite budget
+- No road limit
 [ChangeLog]
 02.16.2020 update
 - Initial release
