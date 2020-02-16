@@ -5,9 +5,9 @@ Notice that this cheat table only supports Cheat Engine 7.0 or above
 
 # Cheat Table Content
 
-- No expense
-- Infinite budget
-- No road limit
+- No Expense
+- Unlimited Budget
+- Unlimited Material
 
 # Change Log
 
